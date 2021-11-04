@@ -1,19 +1,29 @@
-import React from "react";
+import React,{useState} from "react";
 import Item from "./Item";
 
 function ShoppingList({ items }) {
+
+  const [selectedCategory, setSelectedCategory] = useState("All")
+
+ function handleChange(e){
+  setSelectedCategory(e.target.value)   
+}
+
+const filteredItems = items.filter(item =>{
+  return selectedCategory === "All" || item.category === selectedCategory
+})
   return (
     <div className="ShoppingList">
       <div className="Filter">
-        <select name="filter">
-          <option value="All">Filter by category</option>
-          <option value="Produce">Produce</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Dessert">Dessert</option>
+        <select onChange = {handleChange} name="filter">
+          <option >Filter by category</option>
+          <option >Produce</option>
+          <option >Dairy</option>
+          <option >Dessert</option>
         </select>
       </div>
       <ul className="Items">
-        {items.map((item) => (
+        {filteredItems.map((item) => (
           <Item key={item.id} name={item.name} category={item.category} />
         ))}
       </ul>
